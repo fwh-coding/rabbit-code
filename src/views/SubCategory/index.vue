@@ -1,17 +1,40 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { getCategoryFilterAPI } from "@/apis/category";
 import { useRoute } from "vue-router";
-// 获取面包屑导航数据
+import GoodsItem from "../Home/components/GoodsItem.vue";
+import { getCategoryFilterAPI, getSubCategoryAPI } from "@/apis/category.js";
+
 const route = useRoute();
+// 获取面包屑导航数据
 const filterData = ref({});
 const getFilterData = async () => {
     const res = await getCategoryFilterAPI(route.params.id);
     filterData.value = res.result;
 };
+// 获取基础列表数据渲染
+const goodList = ref([])
+const reqData = ref({
+    categoryId: route.params.id,
+    page: 1,
+    pageSize: 20,
+    sortField: 'publishTime'
+})
+
+const getGoodList = async () => {
+    const res = await getSubCategoryAPI(reqData.value)
+    goodList.value = res.result.items
+}
+// tab 切换排序字段
+const activeTab = ref('publishTime')
+const handleTabChange = (name) => {
+    reqData.value.sortField = name
+    getGoodList()
+}
+
 onMounted(() => {
     getFilterData();
-});
+    getGoodList();
+})
 </script>
 
 <template>
@@ -20,20 +43,39 @@ onMounted(() => {
         <div class="bread-container">
             <el-breadcrumb separator=">">
                 <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-                <el-breadcrumb-item :to="{ path: `/category/${filterData.parentId}` }">{{ filterData.parentName }}
-                </el-breadcrumb-item>
+                <el-breadcrumb-item :to="{ path: `/category/${filterData.parentId}` }">{{ filterData.parentName
+                    }}</el-breadcrumb-item>
                 <el-breadcrumb-item>{{ filterData.name }}</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="sub-container">
-            <el-tabs>
+            <el-tabs v-model="activeTab" @tab-change="handleTabChange">
                 <el-tab-pane label="最新商品" name="publishTime"></el-tab-pane>
                 <el-tab-pane label="最高人气" name="orderNum"></el-tab-pane>
                 <el-tab-pane label="评论最多" name="evaluateNum"></el-tab-pane>
             </el-tabs>
             <div class="body">
                 <!-- 商品列表-->
+                <GoodsItem v-for="goods in goodList" :goods="goods" :key="goods.id" />
             </div>
         </div>
     </div>
 </template>
+
+<style lang="scss" scoped>
+.bread-container {
+    padding: 25px 0;
+    color: #666;
+}
+
+.sub-container {
+    padding: 20px 10px;
+    background-color: #fff;
+
+    .body {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0 10px;
+    }
+}
+</style>
