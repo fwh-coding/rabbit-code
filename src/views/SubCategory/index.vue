@@ -3,7 +3,6 @@ import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import GoodsItem from "../Home/components/GoodsItem.vue";
 import { getCategoryFilterAPI, getSubCategoryAPI } from "@/apis/category.js";
-import { tr } from "element-plus/es/locales.mjs";
 
 const route = useRoute();
 // 获取面包屑导航数据
