@@ -28,7 +28,7 @@ onMounted(() => getGoods())
                     </el-breadcrumb-item>
                     <el-breadcrumb-item :to="{ path: `/category/sub/${goods.categories[0].id}` }">{{
                         goods.categories[0].name
-                        }}
+                    }}
                     </el-breadcrumb-item>
                     <el-breadcrumb-item>抓绒保暖，毛毛虫子儿童运动鞋</el-breadcrumb-item>
                 </el-breadcrumb>
@@ -124,9 +124,9 @@ onMounted(() => getGoods())
                         <!-- 24热榜+专题推荐 -->
                         <div class="goods-aside">
                             <!-- 24小时 -->
-                            <DetailHot />
+                            <DetailHot :hot-type="1" />
                             <!-- 周 -->
-                            <DetailHot />
+                            <DetailHot :hot-type="2" />
                         </div>
                     </div>
                 </div>
