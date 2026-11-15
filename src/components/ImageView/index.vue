@@ -21,13 +21,14 @@ const enterhandler = (i) => {
     <div class="goods-image">
         <!-- 左侧大图-->
         <div class="middle" ref="target">
-            <img :src="imageList[0]" alt="" />
+            <img :src="imageList[activeIndex]" alt="" />
             <!-- 蒙层小滑块 -->
             <div class="layer" :style="{ left: `0px`, top: `0px` }"></div>
         </div>
         <!-- 小图列表 -->
         <ul class="small">
-            <li v-for="(img, i) in imageList" :key="i" @mouseenter="enterhandler(i)">
+            <li v-for="(img, i) in imageList" :key="i" @mouseenter="enterhandler(i)"
+                :class="{ activeI: i === activeIndex }">
                 <img :src="img" alt="" />
             </li>
         </ul>
