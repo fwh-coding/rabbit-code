@@ -14,7 +14,7 @@ const getGoods = async () => {
 onMounted(() => getGoods())
 //sku规格被操作时
 const skuChange = (sku) => {
-    console.log(sku)
+
 }
 </script>
 
@@ -34,7 +34,7 @@ const skuChange = (sku) => {
                     </el-breadcrumb-item>
                     <el-breadcrumb-item :to="{ path: `/category/sub/${goods.categories[0].id}` }">{{
                         goods.categories[0].name
-                    }}
+                        }}
                     </el-breadcrumb-item>
                     <el-breadcrumb-item>抓绒保暖，毛毛虫子儿童运动鞋</el-breadcrumb-item>
                 </el-breadcrumb>
